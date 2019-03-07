@@ -76,11 +76,13 @@ function chooseEnemy(obj) {
 // attack player character damages enemy, shown in decrease of HP, which is displayed at the bottom of the enemy's picture
 
 function attack() {
+    console.log("in attack");
     // press attack to dmg enemy character
     // get attack value and health value of the enemy from html using data[]
     enemy.hp -= player.dmg
     chosenEnemy[enemyNumber].dataset["health"] = "" + enemy.hp;
-    $("#"+chosenEnemy[enemyNumber].id .hp).text = "" + enemy.hp;
+    console.log(document.getElementById(""+chosenEnemy[enemyNumber].id));
+    document.getElementById(""+chosenEnemy[enemyNumber].id).querySelector(".hp").innerHTML = "" + enemy.hp;
     // enemy counter attack immediately. get health value and counter attack value of the enemy from html using data[]
     // update player health
 
@@ -107,12 +109,13 @@ function attack() {
         
         inGame = false;
         // hides the defeated enemy card and move it back to character selection box
-        chosenEnemy[enemyNumber].style.display = "none";
-        chosenEnemy[enemyNumber].appendTo($("#start"));
+        console.log(enemyNumber, $("#"+chosenEnemy[enemyNumber].id));
+        $("#"+chosenEnemy[enemyNumber].id)[0].style.display = "none";
+        $("#"+chosenEnemy[enemyNumber].id).appendTo($("#start"));
         enemyNumber++;
+
         // checks if inGame is true and if all enemies have been defeated
-        
-        if (enemyNumber === chosenEnemy.length - 1) {
+        if (inGame === true && enemyNumber === chosenEnemy.length - 1) {
             document.getElementById("log").innerHTML = "You have been victorious!... GG!";
             // show restart button
             document.getElementById("restart").style.display = "block";
