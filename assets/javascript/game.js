@@ -102,18 +102,17 @@ function attack() {
     // initiate another chooseEnemy, if there are no more enemies initiate win screen
     
     if (enemy.hp <= 0) {
-        console.log("dead enemy");
+        console.log("dead enemy", enemyNumber);
         // hides the defeated enemy card and move it back to character selection box
-        
         $("#"+chosenEnemy[enemyNumber].id)[0].style.display = "none";
         $("#"+chosenEnemy[enemyNumber].id).appendTo($("#start"));
-        enemyNumber++;
         document.getElementById(""+chosenEnemy[enemyNumber].id).querySelector(".hp").innerHTML = "" + enemy.startHP;
+        enemyNumber++;
         console.log("line 110 before if", enemyNumber, chosenEnemy.length);
 
         // checks if all enemies have been defeated
         
-        if (enemyNumber === 2) {
+        if (enemyNumber === characters.length - 1) {
             console.log("victory");
             document.getElementById("log").innerHTML = "You have been victorious!... GG!";
             // show restart button
