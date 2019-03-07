@@ -1,29 +1,23 @@
 
 // player character stats
-var player = {
-    healthPoints: "",
-    attackPower: "",
-    counterAttackPower: "",
+let player = {
 }
 
 // enemy character stats
-var enemy = {
-    healthPoints: "",
-    attackPower: "",
-    counterAttackPower: "",
+let enemy = {
 }
 
 // keeps track of how many times players have attacked
-var attackCount = 1; 
+let attackCount = 1; 
 // player is player = 0, enemy is player = 1
-var player = 0;
-var chosenEnemy = [];
-var chosenPlayer;
-var inGame = false;
-var enemyNumber;
+let playerChoosing = true;
+let chosenEnemy = [];
+let chosenPlayer;
+let inGame = false;
+let enemyNumber = 0;
+let characters = $("#character");
 
 $("document").ready(function() {
-    console.log(document.getElementById("playerChar"));
     $("#attack").on("click", function() {
         attack();
     });
@@ -32,18 +26,18 @@ $("document").ready(function() {
     });
     $(".character").on("click", function() {
         console.log(this.id);
-        if (player === 0) {
+        if (playerChoosing) {
             chooseChar(this);
-            player.healthPoints = parseInt(this.dataset["health"]);
-            player.attackPower = parseInt(this.dataset["attack"]);
-            player.counterAttackPower= parseInt(this.dataset["counter"]);
-            console.log(this.dataset["health"], this.dataset["attack"], this.dataset["counter"]);
+            player.hp = parseInt(this.dataset["health"]);
+            player.dmg = parseInt(this.dataset["attack"]);
+            player.counterdmg= parseInt(this.dataset["counter"]);
+            
             chosenPlayer = this;
         } else {
             chooseEnemy(this); 
-            enemy.healthPoints = parseInt(this.dataset["health"]);
-            enemy.attackPower = parseInt(this.dataset["attack"]);
-            enemy.counterAttackPower= parseInt(this.dataset["counter"]);
+            enemy.hp = parseInt(this.dataset["health"]);
+            enemy.dmg = parseInt(this.dataset["attack"]);
+            enemy.counterdmg= parseInt(this.dataset["counter"]);
             // keep track of the hidden defeated character cards
             chosenEnemy.push(this);
         }  
@@ -59,23 +53,24 @@ function chooseChar(obj) {
 
     
     // move all other characters to the Enemies Available To Attack
-    var children;
+    for (let i = 0; i < characters.length; i++) {
+        console.log(characters[i]);
+        if (characters[i].dataset["selected"] == "false") {
+            characters[i].appendTo($("#potentialEnemies"));
+        }
+    }
 
-
-    player = 1;
+    playerChoosing = false;
 }
 
 // player chooses opponent by selecting character's picture, defender is moved to defender_area, button attack is now enabled
 function chooseEnemy(obj) {
     console.log("in chooseEnemy");
-    enemyNumber = 1;
     inGame = true;
-    // $("#"+obj.id).parent().appendTo($("#enemyChar"));
-    console.log("choosing Enemy Character")
     // move the selected enemy to enemyChar side of the battlefield
+    $("#"+obj.id).appendTo($("#enemyChar"));
     // enables the attack button
     document.getElementById("attack").disabled = false;
-
 }
 
 // attack player character damages enemy, shown in decrease of HP, which is displayed at the bottom of the enemy's picture
@@ -83,17 +78,20 @@ function chooseEnemy(obj) {
 function attack() {
     // press attack to dmg enemy character
     // get attack value and health value of the enemy from html using data[]
-
+    enemy.hp -= player.dmg
+    chosenEnemy[enemyNumber].dataset["health"] = "" + enemy.hp;
+    $("#"+chosenEnemy[enemyNumber].id .hp).text = "" + enemy.hp;
     // enemy counter attack immediately. get health value and counter attack value of the enemy from html using data[]
     // update player health
+
+
     // each time the player attacks, their character's Attack Power increases by its base Attack Power.
     attackCount++;
     // get attack value from html and update it
-    console.log(document.getElementById("playerChar"));
-    player.attackPower *= attackCount;
-    chosenPlayer.data["attackPower"] = "" + player.attackPower
+    player.dmg *= attackCount;
+    chosenPlayer.dataset["attack"] = ""+player.dmg;
     // if player char health is <= 0, player has lost display You have been defeated... GG! in log
-    if (player.healthPoint <= 0) {
+    if (player.hp <= 0) {
         inGame = false;
         // show restart button
         document.getElementById("restart").style.display = "block";
@@ -105,14 +103,19 @@ function attack() {
 
     // if enemy char health is <= 0, remove the character box from enemyChar in battlefield by changing display to none in css stylesheet
     // initiate another chooseEnemy, if there are no more enemies initiate win screen
-    if (enemy.healthPoints <= 0) {
+    if (enemy.hp <= 0) {
+        
         inGame = false;
-        // show restart button
-        document.getElementById("restart").style.display = "block";
-        chosenEnemy.style.display = "none";
+        // hides the defeated enemy card and move it back to character selection box
+        chosenEnemy[enemyNumber].style.display = "none";
+        chosenEnemy[enemyNumber].appendTo($("#start"));
+        enemyNumber++;
         // checks if inGame is true and if all enemies have been defeated
-        if (enemyNumber === chosenEnemy.length) {
+        
+        if (enemyNumber === chosenEnemy.length - 1) {
             document.getElementById("log").innerHTML = "You have been victorious!... GG!";
+            // show restart button
+            document.getElementById("restart").style.display = "block";
         }
 
     }
@@ -120,11 +123,11 @@ function attack() {
 
 function restart() {
     // show all the character boxes
-    characters = $(".character");
-    for (let i = 0; i < character.length; i++) {
+    
+    for (let i = 0; i < characters.length; i++) {
         characters[i].style.display = "block";
     }
     // reset inGame
-    
+    chosenPlayer.appendTo($("#start"));
     document.getElementById("restart").style.display = "none";
 }
