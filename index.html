@@ -3,9 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>StarCraft 2 RPG</title>
+
+    <link rel="stylesheet" href="assets/css/reset.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-    
+    <header>
+        <h1 class="text-center">StarCraft 2 RPG!</h1>
+    </header>
+    <div class="container">
+
+        <div class="jumbotron justify-content-around">
+
+            <h1 class="text-center">Characters</h1>
+
+            <div class="row justify-content-around" id="start">
+
+                <div class="col character" id="Marine" data-health="100" data-attack="20" data-counter="20">
+                    <p class="charName">Marine</p>
+                    <img id="marineImg" src="assets/images/marine.jpg" alt="Image of Marine">
+                    <p class="hp">100</p>
+                </div>
+
+                <div class="col character" id="Hydralisk" data-health="140" data-attack="30" data-counter="10">
+                    <p class="charName">Hydralisk</p>
+                    <img src="assets/images/hydralisk.png" alt="Image of Hydralisk">
+                    <p class="hp">140</p>
+                </div>
+
+                <div class="col character" id="Zealot" data-health="200" data-attack="15" data-counter="20">
+                    <p class="charName">Zealot</p>
+                    <img src="assets/images/zealot.png" alt="Image of Zealot">
+                    <p class="hp">200</p>
+                </div>   
+
+            </div>
+
+        </div>
+        
+        <div class="jumbotron" id="battlefield">
+            <div class="row">
+
+                <div class="col-5" id="playerChar">
+
+                </div>
+
+                <div class="col-2">
+                    <div class="row">
+                        <div id="log"></div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button id="attack" disabled="disabled">Attack</button>
+                        <button id="restart" hidden="hidden">Restart</button>
+                    </div>
+
+                </div>
+
+                <div class="col-5" id="enemyChar">
+
+                </div>
+
+            </div>
+            <div class="row">
+                <h2 class="m-auto">Enemies Available for Attack</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="assets/javascript/game.js"></script>
 </body>
 </html>
