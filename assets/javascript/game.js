@@ -19,20 +19,25 @@ var attackCount = 1;
 var player = 0;
 
 $("document").ready(function() {
-    gameStart();
-});
-
-// initialize game 
-function gameStart() {
+    $("#attack").on("click", function() {
+        attack();
+    });
     $("img").on("click", function() {
         console.log(this.id);
         if (player === 0) {
             chooseChar(this);
         } else {
-            $("#"+this.id).parent().appendTo($("#enemyChar"));
-        }
+            chooseEnemy(this); 
+        }  
             
     });
+    gameStart();
+});
+
+// initialize game 
+function gameStart() {
+    //allow 
+    
 }
 
 // player chooses a character by selecting character's picture
@@ -47,14 +52,17 @@ function chooseChar(obj) {
     for (let i = 0; i < children.length; i++) {
 
     }
+
+    player = 1;
 }
 
 // player chooses opponent by selecting character's picture, defender is moved to defender_area, button attack is now enabled
-function chooseEnemy() {
+function chooseEnemy(obj) {
+    $("#"+this.id).parent().appendTo($("#enemyChar"));
     console.log("choosing Enemy Character")
     // move the selected enemy to enemyChar side of the battlefield
     $("img").on("click", function() {
-        $("#hydraliskImg").parent().appendTo($("#enemyChar"));
+        $("#"+obj.id).parent().appendTo($("#enemyChar"));
     });
     // 
 
@@ -64,13 +72,24 @@ function chooseEnemy() {
 
 function attack() {
     // press attack to dmg enemy character
+    // get attack value and health value of the enemy from html using data[]
 
-    // enemy counter attack immediately
-
+    // enemy counter attack immediately. get health value and counter attack value of the enemy from html using data[]
+    // update player health
     // each time the player attacks, their character's Attack Power increases by its base Attack Power.
+    attackCount++;
+    // get attack value from html and update it
 
     // if player char health is <= 0, player has lost display You have been defeated... GG! in log
 
+
     // if enemy char health is <= 0, remove the character box from enemyChar in battlefield
     // initiate another chooseEnemy, if there are no more enemies initiate win screen
+    if (#) {
+
+    }
+}
+
+function restart() {
+
 }
